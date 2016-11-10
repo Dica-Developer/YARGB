@@ -1,15 +1,12 @@
 var map;
 var layer_mapnik;
-var layer_tah;
-var layer_markers;
+var layer_PositionMarker;
 
 function drawmap() {
-    // Popup und Popuptext mit evtl. Grafik
-    var popuptext="<font color=\"black\"><b>Thomas Heiles<br>Stra&szlig;e 123<br>54290 Trier</b><p><img src=\"test.jpg\" width=\"180\" height=\"113\"></p></font>";
-
     OpenLayers.Lang.setCode('de');
     
     // Position und Zoomstufe der Karte
+    //TODO save latest position?
     var lon = 6.641389;
     var lat = 49.756667;
     var zoom = 7;
@@ -30,13 +27,10 @@ function drawmap() {
     });
 
     layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
-    layer_markers = new OpenLayers.Layer.Markers("Address", { projection: new OpenLayers.Projection("EPSG:4326"), 
+    layer_PositionMarker = new OpenLayers.Layer.Markers("Position", { projection: new OpenLayers.Projection("EPSG:4326"), 
     	                                          visibility: true, displayInLayerSwitcher: false });
+    //TODO save map possible? dose it give any improvement?
+    map.addLayers([layer_mapnik, layer_PositionMarker]);
 
-    map.addLayers([layer_mapnik, layer_markers]);
-    jumpTo(lon, lat, zoom);
- 
-    // Position des Markers
-    addMarker(layer_markers, 6.641389, 49.756667, popuptext);
-
+    map.jumpToWithZoom(lon, lat, zoom);
 }

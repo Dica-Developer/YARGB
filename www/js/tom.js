@@ -1,8 +1,13 @@
-function jumpTo(lon, lat, zoom) {
-    var x = Lon2Merc(lon);
-    var y = Lat2Merc(lat);
-    map.setCenter(new OpenLayers.LonLat(x, y), zoom);
-    return false;
+OpenLayers.Map.prototype.jumpToWithZoom = function (lon, lat, zoom) {
+    this.setCenter(getOpenLayersLonLat(lon,lat), zoom);
+}
+
+OpenLayers.Map.prototype.jumpTo = function (lon, lat) {
+    this.setCenter(getOpenLayersLonLat(lon,lat), map.zoom);
+}
+
+function getOpenLayersLonLat(lon, lat){
+    return new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
 }
 
 function Lon2Merc(lon) {
@@ -15,10 +20,22 @@ function Lat2Merc(lat) {
     return 20037508.34 * lat / 180;
 }
 
-function addMarker(layer, lon, lat, popupContentHTML) {
+OpenLayers.Layer.prototype.addMarkerToLayer = function (lon, lat){
+  var ll = getOpenLayersLonLat(lon,lat);
+  var marker = new OpenLayers.Marker(ll)
+  this.addMarker(marker);
+  return marker;
+}
 
-    var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
-    var feature = new OpenLayers.Feature(layer, ll); 
+OpenLayers.Marker.prototype.setPosition = function(lon, lat){
+  var newLonLat = getOpenLayersLonLat(lon,lat);
+  var newPx = map.getLayerPxFromLonLat(newLonLat);
+  this.moveTo(newPx);
+};
+
+OpenLayers.Layer.prototype.addMarkerToLayerWithPopup = function ( lon, lat, popupContentHTML) {
+    var ll = getOpenLayersLonLat(lon,lat);
+    var feature = new OpenLayers.Feature(this, ll); 
     feature.closeBox = true;
     feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {minSize: new OpenLayers.Size(300, 180) } );
     feature.data.popupContentHTML = popupContentHTML;
@@ -39,8 +56,13 @@ function addMarker(layer, lon, lat, popupContentHTML) {
     };
     marker.events.register("mousedown", feature, markerClick);
 
-    layer.addMarker(marker);
+    this.addMarker(marker);
     map.addPopup(feature.createPopup(feature.closeBox));
+    return marker;
+}
+
+function removeMarker(marker){
+  marker.clear();
 }
 
 function getCycleTileURL(bounds) {
