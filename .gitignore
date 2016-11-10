@@ -51,9 +51,14 @@ Temporary Items
 
 #Gradle
 .gradle/
+*.lock
 
 #platforms
 platforms/
 
 #Build directory
 build/
+
+# we dont need this file
+browser.json
+
