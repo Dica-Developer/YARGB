@@ -1,14 +1,29 @@
 var positionMarker;
 var isTrackingActiv = true;
+var tracker;
 
 function showPosition(){
-    setInterval(function() {
-        getCurrentPosition()
-    }, 3000);
+    getCurrentPosition();
+}
+
+function trackPosition(){
+    tracker = setInterval( getCurrentPosition, 3000);
+}
+
+function trackPositionStop() {
+    clearInterval(tracker);
 }
 
 function getCurrentPosition() {
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    /* DEBUG Geolocation
+    if (navigator.geolocation == false) {
+        alert('Navigator-Location disabled');
+    }
+    if (app.geolocation == false) {
+        alert('App-Geolocation disabled');
+    }
+    */
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {frequency:5000, maximumAge: 0, timeout: 30000, enableHighAccuracy: false});
 }
 
 // onSuccess Geolocation
@@ -41,4 +56,5 @@ function onSuccess(position) {
 function onError(error) {
     console.log('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
+    alert('Kein GPS-Signal');
 }

@@ -1,3 +1,7 @@
+getOpenLayersLonLat = function (lon, lat){
+    return new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
+}
+
 OpenLayers.Map.prototype.jumpToWithZoom = function (lon, lat, zoom) {
     this.setCenter(getOpenLayersLonLat(lon,lat), zoom);
 }
@@ -6,15 +10,11 @@ OpenLayers.Map.prototype.jumpTo = function (lon, lat) {
     this.setCenter(getOpenLayersLonLat(lon,lat), map.zoom);
 }
 
-function getOpenLayersLonLat(lon, lat){
-    return new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
-}
-
-function Lon2Merc(lon) {
+Lon2Merc = function (lon) {
     return 20037508.34 * lon / 180;
 }
 
-function Lat2Merc(lat) {
+Lat2Merc = function (lat) {
     var PI = 3.14159265358979323846;
     lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
     return 20037508.34 * lat / 180;
@@ -61,7 +61,7 @@ OpenLayers.Layer.prototype.addMarkerToLayerWithPopup = function ( lon, lat, popu
     return marker;
 }
 
-function removeMarker(marker){
+OpenLayers.Marker.prototype.removeMarker = function (marker){
   marker.clear();
 }
 
