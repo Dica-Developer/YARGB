@@ -44,7 +44,7 @@
 </head>
 
 
-<body onload="drawmap();showPosition();">
+<body onload="drawmap();">
   <script type="text/javascript" src="js/geoLocation.js"></script>
   <div id="header">
    <div id="content">Karte</div>
@@ -57,8 +57,8 @@
   </div>
 </body>
 <footer>
-  <button id="bGetPosition" onclick="bGetPositionClick()">
-    Pos
+  <button id="bGetPosition" onclick="toggleGps()">
+    toggleGps
   </button>
 
   <input type="checkbox" value="None" id="checkbox-design-switch" name="check" onclick="cbTrackingChanged(this)"/>

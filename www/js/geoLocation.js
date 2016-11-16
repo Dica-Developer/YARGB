@@ -1,18 +1,31 @@
 var positionMarker;
-var isTrackingActiv = true;
+var isTrackingActive = false;
 var tracker;
+var isGpsActive = false;
+var gpsIntervalTime = 3000;
+var gpsErrorCount = 0;
 
-function showPosition(){
-    getCurrentPosition();
+function toggleGps(){
+    if(isGpsActive){
+        clearInterval(tracker);
+        isGpsActive = false;
+    }else{
+        tracker = setInterval( getCurrentPosition, gpsIntervalTime);    
+        isGpsActive = true;
+    }
 }
 
-function trackPosition(){
-    tracker = setInterval( getCurrentPosition, 3000);
+function toogleTrackPosition(){
+    if(isTrackingActive){
+        isTrackingActive = false;  
+    }else{
+        isTrackingActive = true;
+        //TODO activate the following lines than Merc2Lat(lat) is acurate enought
+        //var lonLat = getLonLatFromOpenLayerLonLat(positionMarker.lonlat);
+        //map.jumpToWithZoom(lonLat.lon,lonLat.lat,18);
+    }
 }
 
-function trackPositionStop() {
-    clearInterval(tracker);
-}
 
 function getCurrentPosition() {
     /* DEBUG Geolocation
@@ -23,12 +36,12 @@ function getCurrentPosition() {
         alert('App-Geolocation disabled');
     }
     */
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, {frequency:5000, maximumAge: 0, timeout: 30000, enableHighAccuracy: false});
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {maximumAge: 0, timeout: gpsIntervalTime, enableHighAccuracy: true});
 }
 
 // onSuccess Geolocation
 function onSuccess(position) {
-    //var element = document.getElementById('geolocation');
+    resetErrorCount();
     var popuptext='<font color=\"black\">    Latitude: ' + position.coords.latitude              + '<br />' +
                         'Longitude: '          + position.coords.longitude             + '<br />' +
                         'Altitude: '           + position.coords.altitude              + '<br />' +
@@ -45,16 +58,28 @@ function onSuccess(position) {
         positionMarker = layer_PositionMarker.addMarkerToLayerWithPopup(lon, lat , popuptext);
     }else {
         positionMarker.setPosition(lon,lat);
-        if(isTrackingActiv){
-            map.jumpToWithZoom(lon,lat,12);
+        if(isTrackingActive){
+            map.jumpToWithZoom(lon,lat,18);
         }
         
     }
+}
+
+function resetErrorCount(){
+    gpsErrorCount = 0;
 }
 
 // onError Callback receives a PositionError object
 function onError(error) {
     console.log('code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');
-    alert('Kein GPS-Signal');
+    gpsErrorCount++;
+    if(gpsErrorCount >= 3){
+        toggleGps();
+        resetErrorCount();
+        alert('No GPS-Signal, gps tracking is deactivated\n' + 
+          'code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');    
+    }
+    
 }

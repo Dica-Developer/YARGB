@@ -2,6 +2,10 @@ getOpenLayersLonLat = function (lon, lat){
     return new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
 }
 
+getLonLatFromOpenLayerLonLat = function (lonlat){
+  return {lon:Merc2Lon(lonlat.lon),lat:Merc2Lat(lonlat.lat)};
+}
+
 OpenLayers.Map.prototype.jumpToWithZoom = function (lon, lat, zoom) {
     this.setCenter(getOpenLayersLonLat(lon,lat), zoom);
 }
@@ -19,6 +23,21 @@ Lat2Merc = function (lat) {
     lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
     return 20037508.34 * lat / 180;
 }
+
+Merc2Lon = function (lon){
+  return lon * 180 / 20037508.34;
+}
+
+//TODO is not acurate, but why?
+Merc2Lat = function (lat){
+  var PI = 3.14159265358979323846;
+  var RAD2DEG = 180 / PI;
+  var PI_4 = PI / 4;
+  lat = lat * 180 / 20037508.34;
+  lat = (Math.atan(Math.exp(lat / RAD2DEG)) / PI_4 - 1) * 90;
+  return lat;
+}
+
 
 OpenLayers.Layer.prototype.addMarkerToLayer = function (lon, lat){
   var ll = getOpenLayersLonLat(lon,lat);
