@@ -172,3 +172,24 @@ h1 {
 .checkbox-design-switch input[type=checkbox]:checked + label:after {
     opacity: 1;
 }
+
+#copyright{
+    top: 50%;
+    margin-left: -45px;
+    position: absolute;
+    -webkit-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    z-index: 1000;
+    transform: rotate(90deg);
+}
+
+#map{
+    z-index: 0;
+}
+
+#footer{
+    position: absolute;
+    margin-top: -25px;
+    margin-left: 5px;
+    z-index: 1000;
+}

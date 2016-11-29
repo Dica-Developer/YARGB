@@ -31,6 +31,7 @@
 
     
     <link rel="stylesheet" type="text/css" href="css/map.css"></link>
+    <link rel="stylesheet" type="text/css" href="css/index.css"></link>
     <!--[if IE]>
     <link rel="stylesheet" type="text/css" href="ie_map.css"></link>
     <![endif]-->
@@ -40,29 +41,20 @@
     <script type="text/javascript" src="js/drawmap.js"></script>
     
     <script type="text/javascript" src="js/buttonHandling.js"></script>
+    <script type="text/javascript" src="js/geoLocation.js"></script>
     <title>OSM Mobile</title>
 </head>
 
 
 <body onload="drawmap();">
-  <script type="text/javascript" src="js/geoLocation.js"></script>
-  <div id="header">
-   <div id="content">Karte</div>
-   <div id="osm">© <a href="http://www.openstreetmap.org">OpenStreetMap</a>
-     und <a href="http://www.openstreetmap.org/copyright">Mitwirkende</a>,
-     <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.de">CC-BY-SA</a>
-   </div>
-  </div>
-  <div id="map">
-  </div>
-</body>
-<footer>
+  <div id="copyright">© <a href="www.openstreetmap.org/copyright">OpenStreetMap</a></div>
+  <div id="map"></div>
+  <div id="footer">
   <button id="bGetPosition" onclick="toggleGps()">
     toggleGps
   </button>
-
   <input type="checkbox" value="None" id="checkbox-design-switch" name="check" onclick="cbTrackingChanged(this)"/>
   <label for="checkbox-design-switch">Track Position</label>
-</footer>
-
+  </div>
+</body>
 </html>
