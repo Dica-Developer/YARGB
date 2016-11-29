@@ -14,7 +14,8 @@ function drawmap() {
     map = new OpenLayers.Map('map', {
         projection: new OpenLayers.Projection("EPSG:900913"),
         displayProjection: new OpenLayers.Projection("EPSG:4326"),
-        controls: [],
+        controls: [
+            new OpenLayers.Control.Navigation()],
         maxExtent:
             new OpenLayers.Bounds(-20037508.34,-20037508.34,
                                     20037508.34, 20037508.34),
