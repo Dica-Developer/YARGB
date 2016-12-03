@@ -9,9 +9,11 @@ function toggleGps(){
     if(isGpsActive){
         clearInterval(tracker);
         isGpsActive = false;
+        window.plugins.toast.show('GPS deactivated', 'short', 'bottom');
     }else{
         tracker = setInterval( getCurrentPosition, gpsIntervalTime);    
         isGpsActive = true;
+        window.plugins.toast.show('GPS activated', 'short', 'bottom');
     }
 }
 
