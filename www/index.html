@@ -49,10 +49,8 @@
 <body onload="drawmap();">
   <div id="copyright">© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a></div>
   <div id="map"></div>
+  <div id="gpsToggle" onclick="toggleGps();" class="inactive"></div>
   <div id="footer">
-  <button id="bGetPosition" onclick="toggleGps()">
-    toggleGps
-  </button>
   <input type="checkbox" value="None" id="checkbox-design-switch" name="check" onclick="cbTrackingChanged(this)"/>
   <label for="checkbox-design-switch">Track Position</label>
   </div>

@@ -10,10 +10,12 @@ function toggleGps(){
         clearInterval(tracker);
         isGpsActive = false;
         window.plugins.toast.show('GPS deactivated', 'short', 'bottom');
+        document.getElementById("gpsToggle").className = "inactive";
     }else{
         tracker = setInterval( getCurrentPosition, gpsIntervalTime);    
         isGpsActive = true;
         window.plugins.toast.show('GPS activated', 'short', 'bottom');
+        document.getElementById("gpsToggle").className = "active";
     }
 }
 
