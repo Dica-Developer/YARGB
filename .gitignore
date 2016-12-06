@@ -58,3 +58,6 @@ platforms/
 
 #Build directory
 build/
+
+plugins/*.json
+!plugins/fetch.json
