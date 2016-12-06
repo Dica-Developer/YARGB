@@ -58,7 +58,3 @@ platforms/
 
 #Build directory
 build/
-
-# we dont need this file
-browser.json
-
