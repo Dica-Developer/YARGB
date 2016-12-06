@@ -191,19 +191,18 @@ h1 {
     height: 50px;
     width: 50px;
     position: absolute;
-    margin-top: -55px;
-    margin-left: calc(100% - 55px);
+    bottom: 5px;
+    right: 5px;
     z-index: 1000;
-}
-#gpsToggle.inactive{
     background-image: url(../img/gpsToggle.png);
     background-repeat:no-repeat;
+}
+#gpsToggle.inactive{
+
     background-position:0px 0px;
     background-size: 100px 50px;
 }
 #gpsToggle.active{
-    background-image: url(../img/gpsToggle.png);
-    background-repeat:no-repeat;
     background-position:-50px 0px;
     background-size: 100px 50px;
 }
