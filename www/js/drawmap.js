@@ -23,7 +23,7 @@ function drawmap() {
         maxResolution: 156543,
         units: 'meters'
     });
-
+    
     layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
     layer_PositionMarker = new OpenLayers.Layer.Markers("Position", { projection: new OpenLayers.Projection("EPSG:4326"), 
     	                                          visibility: true, displayInLayerSwitcher: false });
@@ -31,4 +31,10 @@ function drawmap() {
     map.addLayers([layer_mapnik, layer_PositionMarker]);
 
     map.jumpToWithZoom(lon, lat, zoom);
+
+    // store key => value pair
+    prefs.store (ok, fail, 'key', 'value');
+    
+    // show application preferences
+    prefs.show (ok, fail);
 }
