@@ -3,6 +3,7 @@ var isTrackingActive = false;
 var tracker;
 var isGpsActive = false;
 var gpsIntervalTime = 3000;
+var gpsTimeOut = 30000;
 var gpsErrorCount = 0;
 
 function toggleGps(){
@@ -40,7 +41,7 @@ function getCurrentPosition() {
         alert('App-Geolocation disabled');
     }
     */
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, {maximumAge: 0, timeout: gpsIntervalTime, enableHighAccuracy: true});
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {maximumAge: 0, timeout: gpsTimeOut, enableHighAccuracy: true});
 }
 
 // onSuccess Geolocation
@@ -84,6 +85,5 @@ function onError(error) {
         alert('No GPS-Signal, gps tracking is deactivated\n' + 
           'code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');    
-    }
-    
+    }    
 }
