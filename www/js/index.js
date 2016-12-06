@@ -34,6 +34,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        prefs = plugins.appPreferences;
         settingsAddOption('value', 'key');
         settingsShow();
     },

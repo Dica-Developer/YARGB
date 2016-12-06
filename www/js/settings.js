@@ -1,4 +1,4 @@
-var prefs = plugins.appPreferences;
+var prefs;
 
 function ok (value) {
 	alert('Etwas wurde erfolgreich hinzugefügt.');

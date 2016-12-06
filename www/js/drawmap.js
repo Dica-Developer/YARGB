@@ -31,10 +31,4 @@ function drawmap() {
     map.addLayers([layer_mapnik, layer_PositionMarker]);
 
     map.jumpToWithZoom(lon, lat, zoom);
-
-    // store key => value pair
-    prefs.store (ok, fail, 'key', 'value');
-    
-    // show application preferences
-    prefs.show (ok, fail);
 }
