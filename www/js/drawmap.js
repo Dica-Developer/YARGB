@@ -29,6 +29,5 @@ function drawmap() {
     	                                          visibility: true, displayInLayerSwitcher: false });
     //TODO save map possible? dose it give any improvement?
     map.addLayers([layer_mapnik, layer_PositionMarker]);
-
     map.jumpToWithZoom(lon, lat, zoom);
 }
