@@ -23,12 +23,12 @@ function settingsShow() {
 
 function settingsPressButton() {
 	prefs = plugins.appPreferences;
-	document.getElementById("settingsButton").className = "active";
+	document.getElementById("settings").className = "active";
 	
 }
 
 function settingsReleaseButton() {
-	document.getElementById("settingsButton").className = "inactive";
+	document.getElementById("settings").className = "inactive";
 	settingsAddOption('Wert', 'Key');
 	settingsShow();
 	
