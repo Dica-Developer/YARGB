@@ -1,9 +1,16 @@
 var prefs;
 var buttonPressed = false;
+var debugSwitch = false;
 
-function ok (value) {
-	alert('Etwas wurde erfolgreich hinzugefügt.');
+function storeOk (value) {
+	if (value != null)
+		alert(value + ' wurde den Settings hinzugefügt.');
 }
+
+function showOk() {
+
+}
+
 function fail (error) {
 	alert(error);
 }
@@ -18,7 +25,7 @@ function settingsAddOption(key, value) {
 function settingsShow() {
     
     // show application preferences
-    prefs.show (ok, fail);
+    prefs.show (showOk, fail);
 }
 
 function settingsPressButton() {
@@ -29,7 +36,14 @@ function settingsPressButton() {
 
 function settingsReleaseButton() {
 	document.getElementById("settings").className = "inactive";
-	settingsAddOption('Wert', 'Key');
-	settingsShow();
-	
+	settingsShow();	
+}
+
+function getDebugSwitch() {
+	prefs.fetch(getDebugSwitch2, fail, 'debug');
+}
+
+function getDebugSwitch2(value) {
+	debugSwitch = value;
+	alert(debugSwitch);
 }
