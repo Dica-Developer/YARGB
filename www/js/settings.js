@@ -1,6 +1,7 @@
 var prefs;
 var buttonPressed = false;
-var debugSwitch = false;
+//var debugSwitch = false;
+var trackingOn = false;
 
 function storeOk (value) {
 	if (value != null)
@@ -39,11 +40,25 @@ function settingsReleaseButton() {
 	settingsShow();	
 }
 
-function getDebugSwitch() {
+/* function getDebugSwitch() {
 	prefs.fetch(getDebugSwitch2, fail, 'debug');
 }
 
 function getDebugSwitch2(value) {
 	debugSwitch = value;
 	alert(debugSwitch);
+} */
+
+function getTrackingSwitch(){
+	prefs.fetch(getTrackingStatus, fail, 'track');
+}
+
+function getTrackingStatus(trackingOn){
+	if(trackingOn == true){
+		isTrackingActive = true;
+
+	}else {
+		isTrackingActive = false;
+		 
+	}
 }

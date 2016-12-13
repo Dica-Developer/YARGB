@@ -20,18 +20,6 @@ function toggleGps(){
     }
 }
 
-function toogleTrackPosition(){
-    if(isTrackingActive){
-        isTrackingActive = false;  
-    }else{
-        isTrackingActive = true;
-        //TODO activate the following lines than Merc2Lat(lat) is acurate enought
-        //var lonLat = getLonLatFromOpenLayerLonLat(positionMarker.lonlat);
-        //map.jumpToWithZoom(lonLat.lon,lonLat.lat,18);
-    }
-}
-
-
 function getCurrentPosition() {
     /* DEBUG Geolocation
     if (navigator.geolocation == false) {
@@ -63,7 +51,8 @@ function onSuccess(position) {
         positionMarker = layer_PositionMarker.addMarkerToLayerWithPopup(lon, lat , popuptext);
     }else {
         positionMarker.setPosition(lon,lat);
-        if(isTrackingActive){
+        getTrackingSwitch();
+		if(isTrackingActive){
             map.jumpToWithZoom(lon,lat,18);
         }
         
