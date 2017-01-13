@@ -24,20 +24,23 @@ Lat2Merc = function (lat) {
     return 20037508.34 * lat / 180;
 }
 
-Merc2Lon = function (lon){
+Merc2Lon = function (mercLon){
   return lon * 180 / 20037508.34;
 }
 
-//TODO is not acurate, but why?
-Merc2Lat = function (lat){
+Merc2Lat = function (mercLat){
   var PI = 3.14159265358979323846;
   var RAD2DEG = 180 / PI;
   var PI_4 = PI / 4;
   lat = lat * 180 / 20037508.34;
   lat = (Math.atan(Math.exp(lat / RAD2DEG)) / PI_4 - 1) * 90;
-  return lat;
+  return round(lat,11);
 }
 
+function round(float, precision){
+  var roundingHelper = Math.pow(10,precision);
+  return Math.round(float*roundingHelper)/roundingHelper;
+}
 
 OpenLayers.Layer.prototype.addMarkerToLayer = function (lon, lat){
   var ll = getOpenLayersLonLat(lon,lat);

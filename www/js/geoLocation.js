@@ -7,11 +7,13 @@ var gpsErrorCount = 0;
 
 function toggleGps(){
     if(isGpsActive){
+        //TODO set button to green
         clearInterval(tracker);
         isGpsActive = false;
         window.plugins.toast.show('GPS deactivated', 'short', 'bottom');
         document.getElementById("gpsToggle").className = "inactive";
     }else{
+        //TODO set button to blank
         tracker = setInterval( getCurrentPosition, gpsIntervalTime);    
         isGpsActive = true;
         window.plugins.toast.show('GPS activated', 'short', 'bottom');
@@ -24,9 +26,11 @@ function toogleTrackPosition(){
         isTrackingActive = false;  
     }else{
         isTrackingActive = true;
-        //TODO activate the following lines than Merc2Lat(lat) is acurate enought
-        //var lonLat = getLonLatFromOpenLayerLonLat(positionMarker.lonlat);
-        //map.jumpToWithZoom(lonLat.lon,lonLat.lat,18);
+        if(undefined !== positionMarker && null !== positionMarker){
+            console.log(positionMarker.lonlat);
+            var lonLat = getLonLatFromOpenLayerLonLat(positionMarker.lonlat);
+            map.jumpToWithZoom(lonLat.lon,lonLat.lat,18);
+        }  
     }
 }
 
@@ -45,9 +49,13 @@ function getCurrentPosition() {
 
 // onSuccess Geolocation
 function onSuccess(position) {
+    //todo set button to green
     resetErrorCount();
-    var popuptext='<font color=\"black\">    Latitude: ' + position.coords.latitude              + '<br />' +
-                        'Longitude: '          + position.coords.longitude             + '<br />' +
+    var lon = round(position.coords.longitude,6);
+    var lat = round(position.coords.latitude,6);
+
+    var popuptext='<font color=\"black\">    Latitude: ' + lat             + '<br />' +
+                        'Longitude: '          + lon            + '<br />' +
                         'Altitude: '           + position.coords.altitude              + '<br />' +
                         'Accuracy: '           + position.coords.accuracy              + '<br />' +
                         'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
@@ -55,8 +63,7 @@ function onSuccess(position) {
                         'Speed: '              + position.coords.speed                 + '<br />' +
                         'Timestamp: '          + position.timestamp                    + '<br /></font>';
 
-    var lon = position.coords.longitude;
-    var lat = position.coords.latitude;
+
 
     if(undefined === positionMarker || null === positionMarker){
         positionMarker = layer_PositionMarker.addMarkerToLayerWithPopup(lon, lat , popuptext);
@@ -79,8 +86,8 @@ function onError(error) {
           'message: ' + error.message + '\n');
     gpsErrorCount++;
     if(gpsErrorCount >= 3){
-        toggleGps();
         resetErrorCount();
+        //todo set gps button to yellow
         alert('No GPS-Signal, gps tracking is deactivated\n' + 
           'code: '    + error.code    + '\n' +
           'message: ' + error.message + '\n');    
