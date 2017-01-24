@@ -39,6 +39,7 @@
     <script type="text/javascript" src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script type="text/javascript" src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
     <script type="text/javascript" src="js/tom.js"></script>
+    <script type="text/javascript" src="js/settings.js"></script>
     <script type="text/javascript" src="js/drawmap.js"></script>
     <script type="text/javascript" src="js/buttonHandling.js"></script>
     <script type="text/javascript" src="js/geoLocation.js"></script>
@@ -48,10 +49,11 @@
 
 <body onload="drawmap();">
   <div id="copyright">© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a></div>
+  <div id="settings" onclick="settingsReleaseButton();" ontouchstart="settingsPressButton();" class="inactive"></div>
   <div id="map"></div>
   <div id="gpsToggle" onclick="toggleGps();" class="inactive"></div>
   <div id="footer">
-  <input type="checkbox" value="None" id="checkbox-design-switch" name="check" onclick="cbTrackingChanged(this)"/>
+  <input type="checkbox" value="None" id="checkbox-design-switch" name="check" onclick="cbTrackingChanged(this);"/>
   <label for="checkbox-design-switch">Track Position</label>
   </div>
 </body>

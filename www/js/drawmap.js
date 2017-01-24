@@ -23,12 +23,11 @@ function drawmap() {
         maxResolution: 156543,
         units: 'meters'
     });
-
+    
     layer_mapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
     layer_PositionMarker = new OpenLayers.Layer.Markers("Position", { projection: new OpenLayers.Projection("EPSG:4326"), 
     	                                          visibility: true, displayInLayerSwitcher: false });
     //TODO save map possible? dose it give any improvement?
     map.addLayers([layer_mapnik, layer_PositionMarker]);
-
     map.jumpToWithZoom(lon, lat, zoom);
 }
