@@ -1,10 +1,9 @@
 var prefs;
 var buttonPressed = false;
-var debugSwitch = false;
 
 function storeOk (value) {
 	if (value != null)
-		alert(value + ' wurde den Settings hinzugefügt.');
+		alert(value + ' wurde in den Settings gespeichert.');
 }
 
 function showOk() {
@@ -12,7 +11,11 @@ function showOk() {
 }
 
 function fail (error) {
-	alert(error);
+	console.log('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
+    alert('Error while trying to get \'track\'-settingsvalue.\n' + 
+          'code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n'); 
 }
 
 function settingsAddOption(key, value) { 
@@ -39,11 +42,3 @@ function settingsReleaseButton() {
 	settingsShow();	
 }
 
-function getDebugSwitch() {
-	prefs.fetch(getDebugSwitch2, fail, 'debug');
-}
-
-function getDebugSwitch2(value) {
-	debugSwitch = value;
-	alert(debugSwitch);
-}

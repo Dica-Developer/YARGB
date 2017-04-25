@@ -3,7 +3,6 @@ var isTrackingActive = false;
 var tracker;
 var isGpsActive = false;
 var gpsIntervalTime = 3000;
-var gpsTimeOut = 30000;
 var gpsErrorCount = 0;
 
 function toggleGps(){
@@ -22,20 +21,6 @@ function toggleGps(){
     }
 }
 
-function toogleTrackPosition(){
-    if(isTrackingActive){
-        isTrackingActive = false;  
-    }else{
-        isTrackingActive = true;
-        if(undefined !== positionMarker && null !== positionMarker){
-            console.log(positionMarker.lonlat);
-            var lonLat = getLonLatFromOpenLayerLonLat(positionMarker.lonlat);
-            map.jumpToWithZoom(lonLat.lon,lonLat.lat,18);
-        }  
-    }
-}
-
-
 function getCurrentPosition() {
     /* DEBUG Geolocation
     if (navigator.geolocation == false) {
@@ -45,7 +30,11 @@ function getCurrentPosition() {
         alert('App-Geolocation disabled');
     }
     */
-    navigator.geolocation.getCurrentPosition(onSuccess, onError, {maximumAge: 0, timeout: gpsTimeOut, enableHighAccuracy: true});
+
+    prefs.fetch(function(gpsTimeOut) {
+        navigator.geolocation.getCurrentPosition(onSuccess, onError, {maximumAge: 0, timeout: gpsTimeOut, enableHighAccuracy: true});
+    }, fail, 'gpsTimeOut');
+    
 }
 
 // onSuccess Geolocation
@@ -70,10 +59,13 @@ function onSuccess(position) {
         positionMarker = layer_PositionMarker.addMarkerToLayerWithPopup(lon, lat , popuptext);
     }else {
         positionMarker.setPosition(lon,lat);
-        if(isTrackingActive){
-            map.jumpToWithZoom(lon,lat,18);
-        }
         
+
+        prefs.fetch(function(trackingEnabled) {
+            if (trackingEnabled) {
+                map.jumpToWithZoom(lon,lat,18);
+            }
+        }, fail, 'track');
     }
 }
 

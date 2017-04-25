@@ -3,26 +3,47 @@
         "type":"group",
         "title":"Common",
         "items":[{
-			"title":"Title",
-			"type":"textfield",
-			"key":"title"
+			"title":"Track",
+ 			"type":"toggle",
+ 			"default":false,
+			"key":"track"
 		}, {
-			"title":"Language",
+			"title":"GPS-Timeout",
 			"type":"radio",
-			"key":"lang",
-			"default": "en-us",
+			"key":"gpsTimeOut",
+			"default": "30000",
 			"items":[{
-				"value":"en-us",
-				"title":"English (US)"
-			}, {
-				"value":"en-gb",
-				"title":"English (UK)"
+				"value":"5000",
+				"title":"5 Sekunden"
+			},
+			{
+				"value":"10000",
+				"title":"10 Sekunden"
+			},
+			{
+				"value":"15000",
+				"title":"15 Sekunden"
+			},
+			{
+				"value":"20000",
+				"title":"20 Sekunden"
+			},
+			{
+				"value":"25000",
+				"title":"25 Sekunden"
+			},
+			{
+				"value":"30000",
+				"title":"30 Sekunden"
+			},
+			{
+				"value":"45000",
+				"title":"45 Sekunden"
+			},
+			{
+				"value":"60000",
+				"title":"60 Sekunden"
 			}]
-		}, {
-			"title":"Debug",
-			"type":"toggle",
-			"default":false,
-			"key":"debug"
 		}]
     }
 ]
