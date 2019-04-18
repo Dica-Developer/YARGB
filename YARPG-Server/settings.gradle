@@ -1,0 +1,11 @@
+rootProject.name = "YARPG-Server"
+
+// application
+include "application:yarpg-core"
+include "application:yarpg-dataproviders"
+include "application:yarpg-entrypoints"
+include "application:yarpg-configuration"
+
+// testing
+include "acceptance-tests"
+include "integration-tests"

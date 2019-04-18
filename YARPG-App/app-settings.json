@@ -44,6 +44,14 @@
 				"value":"60000",
 				"title":"60 Sekunden"
 			}]
-		}]
+		},
+		{
+			"title":"Information",
+			"type":"radio",
+			"key":"Info",
+			"default":"",
+			"items":[{"title":"Diese App ist im Rahmen der Mobile Computing Veranstaltung der Hochschule Merseburg entstanden. Beteiligt waren Stefan Walesch, Marcus Schilling und Priyanka Kamthe.", "value":""}]
+		}
+		]
     }
 ]

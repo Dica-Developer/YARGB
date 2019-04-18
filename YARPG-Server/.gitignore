@@ -1,4 +1,10 @@
-.gradle/
+*.iml
+/.idea
+
+.gradle
 build
-/bin
+
+.classpath
+.project
+bin/
 .settings

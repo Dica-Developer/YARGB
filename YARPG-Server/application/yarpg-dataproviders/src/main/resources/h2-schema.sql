@@ -1,0 +1,30 @@
+CREATE SCHEMA IF NOT EXISTS YARPG;
+
+SET SCHEMA YARPG;
+
+/************************************************/
+/* User  */
+/************************************************/
+
+CREATE TABLE YARPG.USER (
+    USER_ID      INT UNSIGNED    NOT NULL,
+    MAIL         VARCHAR2(100)   NOT NULL,
+    GAME_TAG     VARCHAR2(100)   NOT NULL,
+);
+
+ALTER TABLE YARPG.USER ADD CONSTRAINT USER_PK PRIMARY KEY (USER_ID);
+
+CREATE SEQUENCE YARPG.USER_ID_SEQ MINVALUE 1 NOMAXVALUE INCREMENT BY 1 START WITH 1 CACHE 10 NOCYCLE;
+
+/************************************************/
+/* PlayerModel  */
+/************************************************/
+
+CREATE TABLE YARPG.PLAYER_MODEL (
+    USER_ID       INT UNSIGNED  NOT NULL,
+    LATITUDE      DOUBLE        NOT NULL,
+    LONGITUDE     DOUBLE        NOT NULL,
+    LAST_CHANGED  INT UNSIGNED	NOT NULL,
+);
+
+ALTER TABLE YARPG.PLAYER_MODEL ADD CONSTRAINT PLAYER_MODEL_PK FOREIGN KEY (USER_ID) REFERENCES YARPG.USER(USER_ID);

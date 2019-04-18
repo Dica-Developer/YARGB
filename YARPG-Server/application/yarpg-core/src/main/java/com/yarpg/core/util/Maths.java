@@ -1,0 +1,24 @@
+package com.yarpg.core.util;
+
+import com.yarpg.core.entity.GeoRef;
+
+public class Maths {
+
+    public static double distanceInMeters(GeoRef p1, GeoRef p2) {
+
+        final int R = 6371; // Radius of the earth
+
+        double latDistance = Math.toRadians(p2.getLatitude() - p1.getLatitude());
+        double lonDistance = Math.toRadians(p2.getLongitude() - p1.getLongitude());
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(Math.toRadians(p1.getLatitude()))
+                * Math.cos(Math.toRadians(p2.getLatitude())) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
+
+        double height = p1.getHight() - p2.getHight();
+
+        distance = Math.pow(distance, 2) + Math.pow(height, 2);
+
+        return Math.sqrt(distance);
+    }
+}
