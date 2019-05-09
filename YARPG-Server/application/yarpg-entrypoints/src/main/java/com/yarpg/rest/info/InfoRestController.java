@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class InfoRestController {
 
-    // @GET
-    // @Path("/server/info")
     @RequestMapping(value = "/server/info", method = GET)
     public String updatePlayerLocation() {
         return "test";

@@ -5,7 +5,12 @@ public class User {
     private long _userId;
 
     private String _gamerTag;
+
     private String _userMail;
+
+    public User() {
+    }
+
     public User(long userId, String gamerTag, String userMail) {
         _userId = userId;
         _gamerTag = gamerTag;
@@ -46,5 +51,10 @@ public class User {
 
     public long getUserId() {
         return _userId;
+    }
+
+    @Override
+    public String toString() {
+        return "User [_userId=" + _userId + ", _gamerTag=" + _gamerTag + ", _userMail=" + _userMail + "]";
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.yarpg.core.usecase.move.MovePlayerModelUseCase;
+import com.yarpg.core.usecase.user.UserUseCase;
 import com.yarpg.rest.info.InfoRestController;
 import com.yarpg.rest.move.MovePlayerModelRestController;
 
@@ -11,9 +12,9 @@ import com.yarpg.rest.move.MovePlayerModelRestController;
 public class RestControllerConfiguration {
 
     @Bean
-    public MovePlayerModelRestController getMovePlayerModelRestController(
-            MovePlayerModelUseCase movePlayerModelUseCase) {
-        return new MovePlayerModelRestController(movePlayerModelUseCase);
+    public MovePlayerModelRestController getMovePlayerModelRestController(MovePlayerModelUseCase movePlayerModelUseCase,
+            UserUseCase userUseCase) {
+        return new MovePlayerModelRestController(movePlayerModelUseCase, userUseCase);
     }
 
     @Bean

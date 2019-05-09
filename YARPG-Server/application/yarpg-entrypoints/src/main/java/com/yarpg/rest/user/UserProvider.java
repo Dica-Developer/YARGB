@@ -18,6 +18,7 @@ public class UserProvider implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext containerRequestContext) throws IOException {
+        System.out.println("try to get the user");
         String userId = containerRequestContext.getHeaders()
                 .getFirst("User-Id");
         if (StringUtils.isEmpty(userId)) {

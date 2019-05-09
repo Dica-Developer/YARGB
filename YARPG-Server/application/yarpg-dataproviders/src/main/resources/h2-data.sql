@@ -1,0 +1,5 @@
+/*
+Generate a default User
+*/
+INSERT INTO USER (MAIL, GAME_TAG) VALUES ('defaultUserMail', 'defaultUserGamerTag');
+INSERT INTO PLAYER_MODEL (USER_ID,LATITUDE, LONGITUDE, LAST_CHANGED) VALUES ((SELECT USER_ID from USER WHERE MAIL='defaultUserMail'),0, 0,0);

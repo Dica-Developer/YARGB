@@ -1,4 +1,4 @@
-package com.yarpg.core.usecase.move;
+package com.yarpg.core.usecase;
 
 import java.util.Optional;
 

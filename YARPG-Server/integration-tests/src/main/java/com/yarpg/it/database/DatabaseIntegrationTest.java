@@ -13,9 +13,11 @@ import com.yarpg.core.entity.User;
 @ContextConfiguration(classes = { DatasourceConfiguration.class, DataProviderConfiguration.class })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DatabaseIntegrationTest extends AbstractTransactionalJUnit4SpringContextTests {
+
     protected void cleanUpDatabase() {
         jdbcTemplate.update("DELETE FROM YARPG.PLAYER_MODEL");
         jdbcTemplate.update("DELETE FROM YARPG.USER");
+        jdbcTemplate.update("DELETE FROM YARPG.MAP_ELEMENT");
     }
 
     protected void createPlayerModel(PlayerModel playerModel) {

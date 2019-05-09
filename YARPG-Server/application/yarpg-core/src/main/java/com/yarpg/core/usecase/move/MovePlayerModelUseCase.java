@@ -10,7 +10,9 @@ import com.yarpg.core.entity.PlayerModel;
 import com.yarpg.core.entity.User;
 import com.yarpg.core.exception.Messages;
 import com.yarpg.core.exception.PlayerModelNotFoundException;
-import com.yarpg.core.util.Maths;
+import com.yarpg.core.exception.PlayerPenalty;
+import com.yarpg.core.usecase.MapElementsProvider;
+import com.yarpg.core.usecase.PlayerModelProvider;
 
 public class MovePlayerModelUseCase {
     private PlayerModelProvider _playerModelProvider;
@@ -21,28 +23,40 @@ public class MovePlayerModelUseCase {
         _mapElementsProvider = mapElements;
     }
 
-    public void move(GeoRef newPosition, User user) {
+    public List<MapElement> move(GeoRef newPosition, User user) throws PlayerPenalty, PlayerModelNotFoundException {
+        // Optional<PlayerModel> playerModel = _playerModelProvider.getPlayerModel(user);
         Optional<PlayerModel> playerModel = _playerModelProvider.getPlayerModel(user);
         if (!playerModel.isPresent()) {
             throw new PlayerModelNotFoundException(
                     String.format(Messages.PLAYER_MODEL_FOR_USER_NOT_FOUND, user.getGamerTag()));
         }
-
+        List<MapElement> surroundingMap;
         if (validateMovement(newPosition, playerModel.get()
                 .getPosition())) {
-            playerModel = _playerModelProvider.setPlayerModelPosition(playerModel.get(), newPosition);
-            List<MapElement> mapChunk = _mapElementsProvider.getMapChunk(playerModel.get()
-                    .getPosition());
-            // to handle events on the new location
+            final PlayerModel updatedPlayerModel = _playerModelProvider
+                    .setPlayerModelPosition(playerModel.get(), newPosition)
+                    .get();
+
+            GeoRef position = updatedPlayerModel.getPosition();
+
+            int rangeToGetInMeter = 500;
+            GeoRef pStart = GeoRef.createUpperLeftCorner(position, rangeToGetInMeter);
+            GeoRef pEnd = GeoRef.createLowerRightCorner(position, rangeToGetInMeter);
+            surroundingMap = _mapElementsProvider.getMapBetween(pStart, pEnd);
+            // TODO check distance and activate
+            surroundingMap.forEach(ele -> ele.checkForAutomaticActivation(updatedPlayerModel));
         } else {
-            // penalty for moving to fast
+            throw new PlayerPenalty(Messages.PLAYER_PENALTY_MOVING_TO_FAST);
         }
 
-        // return RESULT?
+        return surroundingMap;
     }
 
     private boolean validateMovement(GeoRef newPosition, GeoRef position) {
-        double distanceInMeters = Maths.distanceInMeters(position, newPosition);
+        if (position.getLastChange() == 0L) {
+            return true;
+        }
+        double distanceInMeters = GeoRef.distanceInMeters(position, newPosition);
         long timeInSeconds = TimeUnit.MILLISECONDS.toSeconds(newPosition.getLastChange() - position.getLastChange());
         double velocity = distanceInMeters / timeInSeconds;
         if (velocity > 50 && distanceInMeters > 100) {

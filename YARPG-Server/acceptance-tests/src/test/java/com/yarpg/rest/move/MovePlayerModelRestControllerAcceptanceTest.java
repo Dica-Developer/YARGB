@@ -14,14 +14,14 @@ import com.yarpg.at.yatspec.EndToEndYatspecTest;
 import com.yarpg.core.entity.GeoRef;
 import com.yarpg.core.entity.PlayerModel;
 import com.yarpg.core.entity.User;
-import com.yarpg.dataprovider.jdbc.PlayerModelProviderImpl;
+import com.yarpg.dataprovider.jdbc.SqlDataProviderImpl;
 import com.yarpg.rest.YarpgUris;
 
 @LinkingNote(message = "End to End test: %s", links = { MovePlayerModelRestControllerAcceptanceTest.class })
 public class MovePlayerModelRestControllerAcceptanceTest extends EndToEndYatspecTest {
 
     @Autowired
-    PlayerModelProviderImpl _playerModelProviderImpl;
+    SqlDataProviderImpl _playerModelProviderImpl;
 
     @Test
     public void updatePlayerLocation() throws UnirestException {
