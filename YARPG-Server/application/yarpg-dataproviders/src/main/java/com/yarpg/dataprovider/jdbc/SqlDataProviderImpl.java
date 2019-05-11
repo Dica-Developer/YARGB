@@ -157,7 +157,7 @@ public class SqlDataProviderImpl implements PlayerModelProvider, MapElementsProv
     @Override
     public void removeMapElementsBetween(GeoRef pStart, GeoRef pEnd) {
         _jdbcTemplate.update("DELETE FROM MAP_ELEMENT WHERE LATITUDE between ? AND ? AND LONGITUDE between ? AND ?;",
-                pStart.getLatitude(), pEnd.getLatitude(), pStart.getLongitude(), pEnd.getLongitude());
+                pEnd.getLatitude(), pStart.getLatitude(), pStart.getLongitude(), pEnd.getLongitude());
     }
 
     @Override

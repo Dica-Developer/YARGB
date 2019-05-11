@@ -39,7 +39,7 @@ public class MovePlayerModelUseCase {
 
             GeoRef position = updatedPlayerModel.getPosition();
 
-            int rangeToGetInMeter = 500;
+            int rangeToGetInMeter = 150;
             GeoRef pStart = GeoRef.createUpperLeftCorner(position, rangeToGetInMeter);
             GeoRef pEnd = GeoRef.createLowerRightCorner(position, rangeToGetInMeter);
             surroundingMap = _mapElementsProvider.getMapBetween(pStart, pEnd);

@@ -111,4 +111,28 @@ public class SqlDataProviderImplIntegrationTest extends DatabaseIntegrationTest 
         // verify
         assertThat(mapBetween).containsExactly(encounter1, encounter2);
     }
+
+    @Test
+    public void addAndDeleteMapElementsTest() {
+        // setup
+        List<MapElement> newElements = Lists.newArrayList();
+        MonsterEncounter encounter1 = new MonsterEncounter("TestName", new GeoRef(50, 10, 0, 0));
+        MonsterEncounter encounter2 = new MonsterEncounter("TestName2", new GeoRef(49, 11.9, 0, 0));
+        MonsterEncounter encounter3 = new MonsterEncounter("Outsite", new GeoRef(10, 15, 0, 0));
+        newElements.add(encounter1);
+        newElements.add(encounter2);
+        newElements.add(encounter3);
+        _sqlDataProviderImpl.addMapElements(newElements);
+        GeoRef pStart = new GeoRef(50.0001, 9.99999, 0, 0);
+        GeoRef pEnd = new GeoRef(48.999999, 12.000001, 0, 0);
+        List<MapElement> mapBetween = _sqlDataProviderImpl.getMapBetween(pStart, pEnd);
+        assertThat(mapBetween).containsExactly(encounter1, encounter2);
+
+        // to test
+        _sqlDataProviderImpl.removeMapElementsBetween(pStart, pEnd);
+
+        // verify
+        List<MapElement> mapBetween2 = _sqlDataProviderImpl.getMapBetween(pStart, pEnd);
+        assertThat(mapBetween2).isEmpty();
+    }
 }

@@ -1,7 +1,5 @@
 package com.yarpg.rest.move;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -12,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yarpg.core.entity.GeoRef;
@@ -35,7 +34,7 @@ public class MovePlayerModelRestController {
         _userUseCase = userUseCase;
     }
 
-    @RequestMapping(value = YarpgUris.UPDATE_PLAYER_LOCATION, method = GET, consumes = MediaType.APPLICATION_JSON)
+    @RequestMapping(value = YarpgUris.UPDATE_PLAYER_LOCATION, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON)
     public Response updatePlayerLocation(@RequestBody GeoRefDTO position) {
         List<MapElement> move = null;
         try {
@@ -52,12 +51,12 @@ public class MovePlayerModelRestController {
                 .build();
     }
 
-    @RequestMapping(value = "georef", method = GET)
+    @RequestMapping(value = "georef", method = RequestMethod.GET)
     public GeoRefDTO getGeoref() {
         return GeoRefDTO.fromGeoRef(new GeoRef(50, 10));
     }
 
-    @RequestMapping(value = "georef2", method = GET, consumes = MediaType.APPLICATION_JSON)
+    @RequestMapping(value = "georef2", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON)
     public GeoRefDTO getGeoref(@RequestBody GeoRefDTO position) {
         System.out.println(position.toGeoRef()
                 .toString());
