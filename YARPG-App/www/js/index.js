@@ -34,18 +34,56 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         prefs = plugins.appPreferences;
-        app.receivedEvent('deviceready');        
+        app.receivedEvent('deviceready');      
+        console.log("receivedEvent deviceready");
+        document.lmgr = new logManager();
+        document.lmgr.init();
+        if(!prefs.fetch){
+            console.log("not found");
+        }else{
+            console.log("found");
+        }
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+        /*
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
-
+        */
         console.log('Received Event: ' + id);
     },
-    
 };
+
+function logManager() {
+    var self = this;
+
+    self.init = function () {
+        console.log('logmanager initialized');
+        var old = console.log;
+        self.logger = document.getElementById('log');
+        console.log = function (message, options) {
+            if (typeof message == 'object') {
+                self.logger.innerHTML = (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />' + self.logger.innerHTML;
+            } else {
+                self.logger.innerHTML = message + '<br />' + self.logger.innerHTML;
+            }
+        }
+
+        console.error = function (message, options) {
+            if (typeof message == 'object') {
+                self.logger.innerHTML = (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />' + self.logger.innerHTML;
+            } else {
+                self.logger.innerHTML = message + '<br />' + self.logger.innerHTML;
+            }
+        }
+    }
+    
+    self.toggleLogVisibility = function () {
+        return $(self.logger).toggle();
+    };
+}
+

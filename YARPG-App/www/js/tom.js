@@ -1,5 +1,5 @@
 getOpenLayersLonLat = function (lon, lat){
-    return new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
+  return new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
 }
 
 getLonLatFromOpenLayerLonLat = function (lonlat){
@@ -7,21 +7,21 @@ getLonLatFromOpenLayerLonLat = function (lonlat){
 }
 
 OpenLayers.Map.prototype.jumpToWithZoom = function (lon, lat, zoom) {
-    this.setCenter(getOpenLayersLonLat(lon,lat), zoom);
+  this.setCenter(getOpenLayersLonLat(lon,lat), zoom);
 }
 
 OpenLayers.Map.prototype.jumpTo = function (lon, lat) {
-    this.setCenter(getOpenLayersLonLat(lon,lat), map.zoom);
+  this.setCenter(getOpenLayersLonLat(lon,lat), map.zoom);
 }
 
 Lon2Merc = function (lon) {
-    return 20037508.34 * lon / 180;
+  return 20037508.34 * lon / 180; 
 }
 
 Lat2Merc = function (lat) {
-    var PI = 3.14159265358979323846;
-    lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
-    return 20037508.34 * lat / 180;
+  var PI = 3.14159265358979323846;
+  lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);
+  return 20037508.34 * lat / 180;
 }
 
 Merc2Lon = function (mercLon){
@@ -56,31 +56,31 @@ OpenLayers.Marker.prototype.setPosition = function(lon, lat){
 };
 
 OpenLayers.Layer.prototype.addMarkerToLayerWithPopup = function ( lon, lat, popupContentHTML) {
-    var ll = getOpenLayersLonLat(lon,lat);
-    var feature = new OpenLayers.Feature(this, ll); 
-    feature.closeBox = true;
-    feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {minSize: new OpenLayers.Size(300, 180) } );
-    feature.data.popupContentHTML = popupContentHTML;
-    feature.data.overflow = "hidden";
-            
-    var marker = new OpenLayers.Marker(ll);
-    marker.feature = feature;
+  var ll = getOpenLayersLonLat(lon,lat);
+  var feature = new OpenLayers.Feature(this, ll); 
+  feature.closeBox = true;
+  feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {minSize: new OpenLayers.Size(300, 180) } );
+  feature.data.popupContentHTML = popupContentHTML;
+  feature.data.overflow = "hidden";
+          
+  var marker = new OpenLayers.Marker(ll);
+  marker.feature = feature;
 
-    var markerClick = function(evt) {
-        if (this.popup == null) {
-            this.popup = this.createPopup(this.closeBox);
-            map.addPopup(this.popup);
-            this.popup.show();
-        } else {
-            this.popup.toggle();
-        }
-        OpenLayers.Event.stop(evt);
-    };
-    marker.events.register("mousedown", feature, markerClick);
+  var markerClick = function(evt) {
+      if (this.popup == null) {
+          this.popup = this.createPopup(this.closeBox);
+          map.addPopup(this.popup);
+          this.popup.show();
+      } else {
+          this.popup.toggle();
+      }
+      OpenLayers.Event.stop(evt);
+  };
+  marker.events.register("mousedown", feature, markerClick);
 
-    this.addMarker(marker);
-    map.addPopup(feature.createPopup(feature.closeBox));
-    return marker;
+  this.addMarker(marker);
+  map.addPopup(feature.createPopup(feature.closeBox));
+  return marker;
 }
 
 OpenLayers.Marker.prototype.removeMarker = function (marker){
@@ -88,20 +88,20 @@ OpenLayers.Marker.prototype.removeMarker = function (marker){
 }
 
 function getCycleTileURL(bounds) {
-   var res = this.map.getResolution();
-   var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-   var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-   var z = this.map.getZoom();
-   var limit = Math.pow(2, z);
+  var res = this.map.getResolution();
+  var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+  var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+  var z = this.map.getZoom();
+  var limit = Math.pow(2, z);
 
-   if (y < 0 || y >= limit)
-   {
-     return null;
-   }
-   else
-   {
-     x = ((x % limit) + limit) % limit;
+  if (y < 0 || y >= limit)
+  {
+   return null;
+  }
+  else
+  {
+   x = ((x % limit) + limit) % limit;
 
-     return this.url + z + "/" + x + "/" + y + "." + this.type;
-   }
+   return this.url + z + "/" + x + "/" + y + "." + this.type;
+  }
 }

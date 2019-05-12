@@ -2,7 +2,7 @@ var positionMarker;
 var isTrackingActive = false;
 var tracker;
 var isGpsActive = false;
-var gpsIntervalTime = 3000;
+var gpsIntervalTime = 10000;
 var gpsErrorCount = 0;
 
 function toggleGps(){
@@ -32,10 +32,12 @@ function getCurrentPosition() {
     */
 
     prefs.fetch(function(gpsTimeOut) {
-        navigator.geolocation.getCurrentPosition(onSuccess, onError, {maximumAge: 0, timeout: gpsTimeOut, enableHighAccuracy: true});
+        navigator.geolocation.getCurrentPosition(onSuccess, onError, {maximumAge: 3000, timeout: gpsTimeOut, enableHighAccuracy: true});
     }, fail, 'gpsTimeOut');
     
 }
+
+
 
 // onSuccess Geolocation
 function onSuccess(position) {
@@ -54,18 +56,63 @@ function onSuccess(position) {
                         'Timestamp: '          + position.timestamp                    + '<br /></font>';
 
 
+    console.log('Latitude: ' + lat + 'Longitude: ' + lon );
+    yarpgServer.movePlayer(onMovePlayerSuccess,
+        function(xmlhttp){
+            console.log("error "+ xmlhttp.statusText);
+        },
+        lat,lon);
 
     if(undefined === positionMarker || null === positionMarker){
         positionMarker = layer_PositionMarker.addMarkerToLayerWithPopup(lon, lat , popuptext);
     }else {
         positionMarker.setPosition(lon,lat);
-        
-
         prefs.fetch(function(trackingEnabled) {
             if (trackingEnabled) {
-                map.jumpToWithZoom(lon,lat,18);
+                map.jumpToWithZoom(lon,lat,17);
             }
         }, fail, 'track');
+    }
+}
+
+function createPointLonLat(lon,lat){
+    return new OpenLayers.Geometry.Point( lon, lat ).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject())
+}
+
+function onMovePlayerSuccess(elements){            
+    if (mapElements) {
+        console.log("remove old elements from layer");
+        mapElements.destroyFeatures();
+    }
+
+    var iconFeature;
+    var iconPath;
+    console.log("adding " +elements.entity.length+" elements");
+    for (var i = elements.entity.length - 1; i >= 0; i--) {
+        var element = elements.entity[i];                
+        switch(element.elementType) {
+            case "com.yarpg.core.entity.MonsterEncounter":
+                var feature = new OpenLayers.Feature.Vector(createPointLonLat(element.position.longitude, element.position.latitude),
+                    {
+                        description:'Name of the Encounter ' + element.monsterName,
+                        name: element.monsterName
+                    },
+                    {
+                        externalGraphic: "img/wildlife.png", 
+                        graphicHeight: 25, 
+                        graphicWidth: 25, 
+                        graphicXOffset:-13, 
+                        graphicYOffset:-25
+                    }
+                );
+    
+                mapElements.addFeatures(feature);
+                //mapElements.refresh();
+            break;
+            
+            default:
+                console.log("type not found "+ element.elementType);
+        }
     }
 }
 

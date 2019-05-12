@@ -227,8 +227,16 @@ h1 {
 }
 
 #footer{
+    overflow: scroll;
     position: absolute;
+    height: 100px;
     margin-top: -25px;
     margin-left: 5px;
     z-index: 1000;
+}
+
+#log{
+    overflow: scroll;
+    height: 20%;
+    width: 80%;
 }
